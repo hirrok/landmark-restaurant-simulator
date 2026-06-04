@@ -1,0 +1,191 @@
+---
+import EmberLayout from '../layouts/EmberLayout.astro';
+import { trustPillars } from '../data/restaurant.js';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<EmberLayout
+  title="About — The Landmark Restaurant | Heritage Dining, Lucena City"
+  description="The Landmark is a heritage dining destination in Lucena City, Quezon Province. Filipino cuisine, private events, and the tradition of gathering at the table."
+  canonical="https://hirrok.github.io/landmark-restaurant-simulator/about/"
+>
+
+  <!-- HEADER -->
+  <section style="background:#1A1008; padding:4rem max(1.5rem,5vw) 3rem;">
+    <div class="container">
+      <p style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--amber); margin-bottom:0.75rem; display:flex; align-items:center; gap:0.75rem;">
+        <span style="width:1.5rem; height:1px; background:var(--amber); display:inline-block;"></span>
+        Our Story
+      </p>
+      <h1 style="font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.5rem); color:#FAF6F0;">
+        A table worth returning to.
+      </h1>
+    </div>
+  </section>
+
+
+  <!-- STORY -->
+  <section class="section" style="background:var(--surface);">
+    <div class="container">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center;">
+        <div>
+          <p class="section-label">Heritage & Place</p>
+          <h2 class="section-title">The Landmark has always been here.</h2>
+          <div style="display:flex; flex-direction:column; gap:1rem; color:var(--mid); font-size:1rem; line-height:1.8; margin-top:1rem;">
+            <p>
+              Some restaurants are built. Some grow. The Landmark is the kind of place that just
+              <em style="font-family:'Playfair Display',serif; color:var(--warm);">is</em> — a fixture of Lucena City's downtown, where
+              the kare-kare has always tasted right and the private room has hosted more birthday
+              celebrations than anyone has kept count of.
+            </p>
+            <p>
+              We cook Filipino food the way it was meant to be: slow, attentive, sourced close to home.
+              Our suppliers are local. Our ingredients follow the season. Our kitchen follows the recipe.
+            </p>
+            <p>
+              We're here for the everyday lunch and the once-a-year anniversary. For the solo diner
+              at the bar and the party of sixty in the private hall. The occasion doesn't matter.
+              The table does.
+            </p>
+          </div>
+        </div>
+
+        <!-- Story image placeholder -->
+        <div style="
+          height: 420px;
+          background: linear-gradient(135deg, #2C1810 0%, #3D2415 60%, #2C1810 100%);
+          border-radius: 4px;
+          display: flex; align-items: center; justify-content: center;
+          position: relative; overflow: hidden;
+        ">
+          <p style="font-family:'Playfair Display',serif; font-size:1rem; font-style:italic; color:rgba(250,246,240,0.2);">Restaurant photo</p>
+          <div style="
+            position:absolute; bottom:0; left:0; right:0;
+            padding:1.5rem;
+            background:linear-gradient(to top, rgba(26,16,8,0.8), transparent);
+          ">
+            <p style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--amber);">Lucena City · Quezon Province</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- KITCHEN -->
+  <section class="section" style="background:var(--raised); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center;">
+
+        <!-- Kitchen image placeholder -->
+        <div style="
+          height:340px;
+          background:linear-gradient(135deg, #2C1810 0%, #1A1008 100%);
+          border-radius:4px;
+          display:flex; align-items:center; justify-content:center;
+        ">
+          <p style="font-family:'Playfair Display',serif; font-size:1rem; font-style:italic; color:rgba(250,246,240,0.2);">Kitchen photo</p>
+        </div>
+
+        <div>
+          <p class="section-label">The Kitchen</p>
+          <h2 class="section-title">Cooked the right way. Every time.</h2>
+          <div style="display:flex; flex-direction:column; gap:1rem; color:var(--mid); font-size:1rem; line-height:1.8; margin-top:1rem;">
+            <p>
+              We don't take shortcuts with our signature dishes. The kare-kare braises for hours.
+              The kinilaw is prepared fresh with the morning's catch. The grilled liempo starts
+              with a marinade that's been perfected over time.
+            </p>
+            <p>
+              Our daily specials follow what's best at the market that morning — which means
+              the menu evolves with the season, the catch, and the harvest. Ask your server
+              what's fresh today.
+            </p>
+          </div>
+
+          <!-- Stats -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:2rem;">
+            {[
+              { label:"Menu Categories", value:"5+" },
+              { label:"Signature Dishes", value:"10+" },
+              { label:"Event Capacity", value:"Up to 60" },
+              { label:"Days Open", value:"6 per week" },
+            ].map(s => (
+              <div style="padding:1rem; background:var(--surface); border:1px solid var(--border); border-radius:4px;">
+                <p style="font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--amber); font-weight:700; margin-bottom:0.2rem;">{s.value}</p>
+                <p style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--dim);">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PRIVATE EVENTS -->
+  <section class="section" style="background:#1A1008;">
+    <div class="container-narrow" style="text-align:center;">
+      <p style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--amber); margin-bottom:0.75rem;">Private Dining</p>
+      <h2 style="font-family:'Playfair Display',serif; font-size:clamp(1.75rem,4vw,2.75rem); color:#FAF6F0; margin-bottom:1.25rem; line-height:1.2;">
+        The private room has hosted<br/>
+        <em style="color:var(--amber);">a thousand occasions.</em>
+      </h2>
+      <p style="font-size:1rem; color:rgba(250,246,240,0.65); line-height:1.8; margin-bottom:2.5rem;">
+        Birthdays, anniversaries, retirement parties, corporate lunches, christenings, reunions.
+        We've set up for 15 and we've set up for 60. We'll take care of the table — you bring the people.
+      </p>
+      <div style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center;">
+        <a href={`${base}reservations/`} class="btn-primary">Reserve for an Event</a>
+        <a href={`${base}contact/`} class="btn-ghost" style="color:rgba(250,246,240,0.6); border-color:rgba(255,255,255,0.2);">Inquire About Catering</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- TEAM -->
+  <section class="section" style="background:var(--surface);">
+    <div class="container">
+      <div style="text-align:center; margin-bottom:2.5rem;">
+        <p class="section-label">The Team</p>
+        <h2 class="section-title">The people behind the kitchen</h2>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.5rem;">
+        {[
+          { role:"Head Chef",       bio:"Leads the kitchen with heritage recipes refined over years of practice." },
+          { role:"Events Manager",  bio:"Coordinates private dining, corporate events, and catering arrangements." },
+          { role:"Service Manager", bio:"Ensures every table receives attentive, unhurried service." },
+        ].map(m => (
+          <div style="text-align:center; padding:1.5rem;">
+            <div style="
+              width:72px; height:72px;
+              background:var(--raised);
+              border:2px solid var(--border);
+              border-radius:50%;
+              margin:0 auto 1rem;
+              display:flex; align-items:center; justify-content:center;
+            ">
+              <span style="font-size:1.5rem;">👤</span>
+            </div>
+            <p style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--amber); margin-bottom:0.25rem;">{m.role}</p>
+            <p style="font-size:0.875rem; color:var(--mid); line-height:1.6;">{m.bio}</p>
+          </div>
+        ))}
+      </div>
+      <p style="text-align:center; font-family:'DM Mono',monospace; font-size:0.65rem; color:var(--muted); letter-spacing:0.1em; margin-top:1.5rem;">
+        Team profiles to be updated with owner-provided names and photos.
+      </p>
+    </div>
+  </section>
+
+  <style>
+    @media (max-width:768px) {
+      .container > div[style*="grid-template-columns:1fr 1fr"] {
+        grid-template-columns:1fr !important;
+      }
+    }
+  </style>
+
+</EmberLayout>

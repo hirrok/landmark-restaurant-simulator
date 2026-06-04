@@ -1,1 +1,301 @@
+---
+import EmberLayout from '../layouts/EmberLayout.astro';
+import { restaurant, featured, trustPillars } from '../data/restaurant.js';
 
+const base = import.meta.env.BASE_URL;
+---
+
+<EmberLayout
+  title="The Landmark — Heritage Restaurant | Lucena City, Quezon"
+  description="The Landmark is a heritage dining destination in Lucena City, Quezon Province. Reserve a table for dine-in or inquire about private events and catering."
+  ogTitle="The Landmark Restaurant — Lucena City"
+  ogDesc="Heritage Filipino cuisine. Private dining. Reservation-ready. Downtown Lucena City, Quezon Province."
+  canonical="https://hirrok.github.io/landmark-restaurant-simulator/"
+>
+
+  <!-- ── HERO ── -->
+  <section style="
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    background: #1A1008;
+    overflow: hidden;
+  ">
+    <!-- Background texture -->
+    <div style="
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 60% 50%, rgba(194,122,43,0.12) 0%, transparent 60%),
+                  linear-gradient(to bottom, rgba(26,16,8,0.4) 0%, rgba(26,16,8,0.8) 100%);
+      z-index: 1;
+    "></div>
+
+    <!-- Hero image placeholder -->
+    <div style="
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #2C1810 0%, #1A1008 50%, #0E0804 100%);
+      display: flex; align-items: center; justify-content: center;
+    ">
+      <div style="
+        width: 100%; height: 100%;
+        background: repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 40px,
+          rgba(194,122,43,0.03) 40px,
+          rgba(194,122,43,0.03) 41px
+        );
+      "></div>
+    </div>
+
+    <!-- Hero Content -->
+    <div style="
+      position: relative; z-index: 2;
+      width: 100%;
+      padding: 0 max(1.5rem, 5vw);
+    ">
+      <div class="container">
+        <div style="max-width: 700px;">
+
+          <p style="
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 1.5rem;
+            display: flex; align-items: center; gap: 0.75rem;
+          ">
+            <span style="display:inline-block; width:2rem; height:1px; background:var(--amber);"></span>
+            Lucena City · Quezon Province
+          </p>
+
+          <h1 style="
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.8rem, 7vw, 5.5rem);
+            font-weight: 700;
+            color: #FAF6F0;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+          ">
+            Where every occasion<br/>
+            <em style="color: var(--amber); font-style: italic;">becomes a memory.</em>
+          </h1>
+
+          <p style="
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: rgba(250,246,240,0.7);
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            max-width: 520px;
+          ">
+            Heritage Filipino cuisine, curated for the moments that matter.
+            From weekday lunches to milestone celebrations — your table is waiting.
+          </p>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+            <a href={`${base}reservations/`} class="btn-primary" style="font-size:0.8rem; padding:1rem 2rem;">
+              Reserve a Table
+            </a>
+            <a href={`${base}menu/`} class="btn-outline" style="color:#FAF6F0; border-color:rgba(250,246,240,0.3); font-size:0.8rem; padding:1rem 2rem;">
+              View the Menu
+            </a>
+          </div>
+
+          <!-- Hours bar -->
+          <div style="
+            margin-top: 3rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+          ">
+            {[
+              { label: "Tue–Fri", value: "11AM–10PM" },
+              { label: "Sat–Sun", value: "10AM–11PM" },
+              { label: "Monday", value: "Closed" },
+            ].map(h => (
+              <div>
+                <p style="font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--amber); margin-bottom:0.2rem;">{h.label}</p>
+                <p style="font-size:0.9rem; color:rgba(250,246,240,0.7);">{h.value}</p>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div style="
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    ">
+      <p style="font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.15em; color:rgba(250,246,240,0.4); text-transform:uppercase;">Scroll</p>
+      <div style="width:1px; height:2rem; background:linear-gradient(to bottom, rgba(250,246,240,0.4), transparent);"></div>
+    </div>
+  </section>
+
+
+  <!-- ── FEATURED DISHES ── -->
+  <section class="section" style="background: var(--surface);">
+    <div class="container">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2.5rem; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <p class="section-label">From Our Kitchen</p>
+          <h2 class="section-title" style="margin-bottom:0;">Chef's Recommendations</h2>
+        </div>
+        <a href={`${base}menu/`} class="btn-ghost">View Full Menu →</a>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem;">
+        {featured.map((dish, i) => (
+          <div style="
+            background: var(--raised);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+          "
+          onmouseover="this.style.boxShadow='0 8px 32px rgba(26,16,8,0.12)'"
+          onmouseout="this.style.boxShadow='none'"
+          >
+            <!-- Image placeholder -->
+            <div style="
+              height: 200px;
+              background: linear-gradient(135deg, #2C1810 0%, #3D2415 50%, #2C1810 100%);
+              display: flex; align-items: center; justify-content: center;
+              position: relative;
+            ">
+              <p style="
+                font-family:'Playfair Display',serif;
+                font-size:1.1rem;
+                font-style:italic;
+                color:rgba(250,246,240,0.3);
+              ">Photo</p>
+              <span style="
+                position:absolute; top:0.75rem; left:0.75rem;
+                font-family:'DM Mono',monospace;
+                font-size:0.6rem;
+                letter-spacing:0.12em;
+                text-transform:uppercase;
+                background:var(--amber);
+                color:#fff;
+                padding:0.3rem 0.6rem;
+                border-radius:2px;
+              ">{dish.tag}</span>
+            </div>
+            <div style="padding:1.25rem;">
+              <h3 style="font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--warm); margin-bottom:0.4rem;">{dish.name}</h3>
+              <p style="font-size:0.9rem; color:var(--mid); line-height:1.6;">{dish.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── TRUST PILLARS ── -->
+  <section class="section" style="background:var(--raised); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div style="text-align:center; margin-bottom:3rem;">
+        <p class="section-label" style="display:block;">Why Dine With Us</p>
+        <h2 class="section-title">What sets The Landmark apart</h2>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:2rem;">
+        {trustPillars.map(p => (
+          <div style="text-align:center; padding:2rem 1.5rem;">
+            <!-- Icon placeholder -->
+            <div style="
+              width:56px; height:56px;
+              background:var(--amber-bg);
+              border:1px solid rgba(194,122,43,0.3);
+              border-radius:50%;
+              display:flex; align-items:center; justify-content:center;
+              margin:0 auto 1.25rem;
+            ">
+              <span style="font-size:1.25rem;">
+                {p.icon === 'heritage' ? '🍲' : p.icon === 'local' ? '🌿' : '🎉'}
+              </span>
+            </div>
+            <h3 style="font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--warm); margin-bottom:0.5rem;">{p.title}</h3>
+            <p style="font-size:0.9rem; color:var(--mid); line-height:1.7;">{p.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── PRIVATE EVENTS CTA ── -->
+  <section class="section" style="background:#1A1008;">
+    <div class="container">
+      <div style="
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:3rem;
+        align-items:center;
+      ">
+        <div>
+          <p style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--amber); margin-bottom:0.75rem;">Private Dining & Events</p>
+          <h2 style="font-family:'Playfair Display',serif; font-size:clamp(1.75rem,3.5vw,2.5rem); color:#FAF6F0; margin-bottom:1rem; line-height:1.2;">
+            Your next celebration deserves more than a Facebook message.
+          </h2>
+          <p style="font-size:1rem; color:rgba(250,246,240,0.65); line-height:1.7; margin-bottom:2rem;">
+            Birthdays, anniversaries, corporate lunches, and family gatherings.
+            We have a private dining space and a dedicated team for your occasion.
+            15 to 60 guests.
+          </p>
+          <div style="display:flex; flex-wrap:wrap; gap:1rem;">
+            <a href={`${base}reservations/`} class="btn-primary">Reserve for an Event</a>
+            <a href={`${base}contact/`} class="btn-ghost" style="color:rgba(250,246,240,0.6); border-color:rgba(255,255,255,0.15);">Inquire About Catering</a>
+          </div>
+        </div>
+
+        <!-- Event details -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.08); border-radius:4px; overflow:hidden;">
+          {[
+            { label:"Capacity",    value:"15–60 guests" },
+            { label:"Occasions",   value:"Any celebration" },
+            { label:"Catering",    value:"Available" },
+            { label:"Audio-Visual","value":"On request" },
+          ].map(item => (
+            <div style="background:#1A1008; padding:1.5rem;">
+              <p style="font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--amber); margin-bottom:0.4rem;">{item.label}</p>
+              <p style="font-size:1rem; color:#FAF6F0;">{item.value}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── LOCATION STRIP ── -->
+  <section class="section-sm" style="background:var(--raised); border-top:1px solid var(--border);">
+    <div class="container">
+      <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:1.5rem;">
+        <div>
+          <p class="section-label">Find Us</p>
+          <p style="font-size:1rem; color:var(--ink);">Downtown Lucena City · Quezon Province</p>
+          <p style="font-size:0.9rem; color:var(--mid); margin-top:0.25rem;">Open Tuesday through Sunday</p>
+        </div>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+          <a href={`${base}contact/`} class="btn-outline">Get Directions</a>
+          <a href={`${base}reservations/`} class="btn-primary">Reserve a Table</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    @media (max-width: 768px) {
+      .events-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+
+</EmberLayout>

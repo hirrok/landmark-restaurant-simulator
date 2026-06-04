@@ -1,0 +1,167 @@
+---
+import EmberLayout from '../layouts/EmberLayout.astro';
+import { menu } from '../data/restaurant.js';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<EmberLayout
+  title="Menu — The Landmark Restaurant | Lucena City, Quezon"
+  description="Browse The Landmark's full menu — starters, mains, grills, desserts, and drinks. Filipino heritage cuisine in Lucena City, Quezon Province."
+  canonical="https://hirrok.github.io/landmark-restaurant-simulator/menu/"
+>
+
+  <!-- PAGE HEADER -->
+  <section style="background:#1A1008; padding:4rem max(1.5rem,5vw) 3rem;">
+    <div class="container">
+      <p style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--amber); margin-bottom:0.75rem; display:flex; align-items:center; gap:0.75rem;">
+        <span style="width:1.5rem; height:1px; background:var(--amber); display:inline-block;"></span>
+        Our Menu
+      </p>
+      <h1 style="font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.5rem); color:#FAF6F0; margin-bottom:1rem;">
+        The Kitchen's Best
+      </h1>
+      <p style="font-size:1rem; color:rgba(250,246,240,0.6); max-width:480px; line-height:1.7;">{menu.note}</p>
+    </div>
+  </section>
+
+
+  <!-- MENU BODY -->
+  <section class="section" style="background:var(--surface);">
+    <div class="container">
+
+      <!-- Tab navigation -->
+      <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:3rem; border-bottom:2px solid var(--border); padding-bottom:0;" id="menuTabs">
+        {menu.categories.map((cat, i) => (
+          <button
+            class={`menu-tab ${i === 0 ? 'active' : ''}`}
+            data-target={`tab-${cat.id}`}
+            style="
+              font-family:'DM Mono',monospace;
+              font-size:0.7rem;
+              letter-spacing:0.12em;
+              text-transform:uppercase;
+              padding:0.75rem 1.25rem;
+              background:none;
+              border:none;
+              border-bottom:2px solid transparent;
+              margin-bottom:-2px;
+              cursor:pointer;
+              color:var(--dim);
+              transition:all 0.2s;
+            "
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
+      <!-- Chef's Picks banner -->
+      <div style="
+        background:var(--amber-bg);
+        border:1px solid rgba(194,122,43,0.25);
+        border-radius:4px;
+        padding:1rem 1.25rem;
+        margin-bottom:2.5rem;
+        display:flex;
+        align-items:center;
+        gap:1rem;
+        flex-wrap:wrap;
+      ">
+        <span style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--amber);">Chef's Picks:</span>
+        <span style="font-size:0.9rem; color:var(--mid);">{menu.chefPicks.join(' · ')}</span>
+      </div>
+
+      <!-- Tab panels -->
+      {menu.categories.map((cat, i) => (
+        <div id={`tab-${cat.id}`} class="tab-panel" style={i !== 0 ? 'display:none' : ''}>
+          <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:4px; overflow:hidden;">
+            {cat.items.map(item => {
+              const isChefPick = menu.chefPicks.includes(item.name);
+              return (
+                <div style="
+                  background:var(--surface);
+                  padding:1.5rem;
+                  position:relative;
+                ">
+                  {isChefPick && (
+                    <span style="
+                      position:absolute; top:1rem; right:1rem;
+                      font-family:'DM Mono',monospace;
+                      font-size:0.55rem;
+                      letter-spacing:0.12em;
+                      text-transform:uppercase;
+                      background:var(--amber);
+                      color:#fff;
+                      padding:0.2rem 0.5rem;
+                      border-radius:2px;
+                    ">Chef's Pick</span>
+                  )}
+                  <h3 style="font-family:'Playfair Display',serif; font-size:1.05rem; color:var(--warm); margin-bottom:0.4rem; padding-right:6rem;">{item.name}</h3>
+                  <p style="font-size:0.875rem; color:var(--mid); line-height:1.6;">{item.description}</p>
+                  {/* Dietary icons */}
+                  <div style="display:flex; gap:0.5rem; margin-top:0.75rem;">
+                    {menu.dietary.vegetarian.includes(item.name) && (
+                      <span style="font-family:'DM Mono',monospace; font-size:0.55rem; letter-spacing:0.1em; text-transform:uppercase; background:var(--green-bg); color:var(--green); border:1px solid rgba(58,107,58,0.2); padding:0.2rem 0.5rem; border-radius:2px;">🌿 Vegetarian</span>
+                    )}
+                    {menu.dietary.seafood.includes(item.name) && (
+                      <span style="font-family:'DM Mono',monospace; font-size:0.55rem; letter-spacing:0.1em; text-transform:uppercase; background:rgba(26,96,168,0.06); color:#1A60A8; border:1px solid rgba(26,96,168,0.2); padding:0.2rem 0.5rem; border-radius:2px;">🐟 Seafood</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+
+      <!-- Dietary note -->
+      <div style="margin-top:2.5rem; padding:1.25rem; background:var(--raised); border:1px solid var(--border); border-radius:4px;">
+        <p style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--amber); margin-bottom:0.4rem;">Dietary & Allergies</p>
+        <p style="font-size:0.875rem; color:var(--mid); line-height:1.6;">
+          Please inform your server of any dietary requirements or allergies. Vegetarian, halal, and allergen-aware dishes are available with advance notice.
+          Prices vary by market availability and season — ask your server for today's menu pricing.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- RESERVE CTA -->
+  <section class="section-sm" style="background:var(--raised); border-top:1px solid var(--border);">
+    <div class="container">
+      <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:1.5rem;">
+        <div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--warm);">Ready to dine?</h3>
+          <p style="font-size:0.9rem; color:var(--mid); margin-top:0.25rem;">Reserve your table and we'll have it ready for you.</p>
+        </div>
+        <a href={`${base}reservations/`} class="btn-primary">Reserve a Table →</a>
+      </div>
+    </div>
+  </section>
+
+</EmberLayout>
+
+<style>
+  .menu-tab.active {
+    color: var(--amber) !important;
+    border-bottom-color: var(--amber) !important;
+  }
+  .menu-tab:hover { color: var(--warm) !important; }
+</style>
+
+<script>
+  // Tab switching
+  document.querySelectorAll('.menu-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Deactivate all
+      document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => (p as HTMLElement).style.display = 'none');
+      // Activate clicked
+      tab.classList.add('active');
+      const target = tab.getAttribute('data-target');
+      if (target) (document.getElementById(target) as HTMLElement).style.display = '';
+    });
+  });
+</script>

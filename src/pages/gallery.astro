@@ -1,0 +1,176 @@
+---
+import EmberLayout from '../layouts/EmberLayout.astro';
+
+const base = import.meta.env.BASE_URL;
+
+const categories = ["All", "Dishes", "Interior", "Events"];
+
+// Gallery items - all placeholder until real photos are supplied
+const items = [
+  { id:1,  cat:"Dishes",   label:"Kare-Kare",          span: "tall" },
+  { id:2,  cat:"Interior", label:"Main Dining Room",   span: "wide" },
+  { id:3,  cat:"Dishes",   label:"Grilled Tuna Panga", span: "normal" },
+  { id:4,  cat:"Events",   label:"Birthday Celebration",span:"normal" },
+  { id:5,  cat:"Dishes",   label:"Kinilaw na Tanigue", span: "normal" },
+  { id:6,  cat:"Interior", label:"Private Dining Room",span: "tall" },
+  { id:7,  cat:"Dishes",   label:"Lechon Kawali",      span: "wide" },
+  { id:8,  cat:"Events",   label:"Corporate Lunch",    span: "normal" },
+  { id:9,  cat:"Interior", label:"Al Fresco Area",     span: "normal" },
+  { id:10, cat:"Dishes",   label:"Halo-Halo",          span: "normal" },
+  { id:11, cat:"Events",   label:"Anniversary Dinner", span: "wide" },
+  { id:12, cat:"Interior", label:"Bar & Reception",    span: "normal" },
+];
+---
+
+<EmberLayout
+  title="Gallery — The Landmark Restaurant | Lucena City"
+  description="Photos of The Landmark's dishes, dining areas, and private events. Heritage Filipino cuisine in Lucena City, Quezon Province."
+  canonical="https://hirrok.github.io/landmark-restaurant-simulator/gallery/"
+>
+
+  <!-- HEADER -->
+  <section style="background:#1A1008; padding:4rem max(1.5rem,5vw) 3rem;">
+    <div class="container">
+      <p style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--amber); margin-bottom:0.75rem; display:flex; align-items:center; gap:0.75rem;">
+        <span style="width:1.5rem; height:1px; background:var(--amber); display:inline-block;"></span>
+        Gallery
+      </p>
+      <h1 style="font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.5rem); color:#FAF6F0;">
+        The Food. The Space. The Occasions.
+      </h1>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="section" style="background:var(--surface);">
+    <div class="container">
+
+      <!-- Filter tabs -->
+      <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:2.5rem;" id="galleryFilters">
+        {categories.map((cat, i) => (
+          <button
+            class={`gallery-filter ${i === 0 ? 'active' : ''}`}
+            data-filter={cat.toLowerCase()}
+            style="
+              font-family:'DM Mono',monospace;
+              font-size:0.65rem;
+              letter-spacing:0.12em;
+              text-transform:uppercase;
+              padding:0.5rem 1rem;
+              background:none;
+              border:1px solid var(--border);
+              border-radius:2px;
+              cursor:pointer;
+              color:var(--dim);
+              transition:all 0.2s;
+            "
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      <!-- Grid -->
+      <div style="
+        columns: 3 280px;
+        column-gap: 1rem;
+        gap: 1rem;
+      " id="galleryGrid">
+        {items.map(item => (
+          <div
+            class="gallery-item"
+            data-cat={item.cat.toLowerCase()}
+            style="
+              break-inside: avoid;
+              margin-bottom: 1rem;
+              background: linear-gradient(135deg, #2C1810 0%, #3D2415 50%, #2C1810 100%);
+              border-radius: 4px;
+              overflow: hidden;
+              position: relative;
+              cursor: pointer;
+              transition: transform 0.2s;
+            "
+            onmouseover="this.style.transform='scale(1.01)'"
+            onmouseout="this.style.transform='scale(1)'"
+          >
+            <div style={`
+              height: ${item.span === 'tall' ? '320px' : item.span === 'wide' ? '220px' : '200px'};
+              display: flex; align-items: center; justify-content: center;
+              position: relative;
+            `}>
+              <p style="font-family:'Playfair Display',serif; font-size:1rem; font-style:italic; color:rgba(250,246,240,0.25);">Photo</p>
+              <!-- Overlay on hover -->
+              <div style="
+                position:absolute; inset:0;
+                background:linear-gradient(to top, rgba(26,16,8,0.7) 0%, transparent 60%);
+                opacity:0;
+                transition:opacity 0.2s;
+              " class="gallery-overlay"></div>
+              <div style="
+                position:absolute; bottom:0; left:0; right:0;
+                padding:1rem;
+                transform:translateY(4px);
+                transition:transform 0.2s;
+              " class="gallery-caption">
+                <span style="
+                  font-family:'DM Mono',monospace;
+                  font-size:0.6rem;
+                  letter-spacing:0.12em;
+                  text-transform:uppercase;
+                  color:var(--amber);
+                  display:block;
+                  margin-bottom:0.2rem;
+                ">{item.cat}</span>
+                <p style="font-family:'Playfair Display',serif; font-size:0.95rem; color:#FAF6F0;">{item.label}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Asset note -->
+      <div style="margin-top:2rem; padding:1rem 1.25rem; background:var(--raised); border:1px solid var(--border); border-radius:4px; text-align:center;">
+        <p style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--dim);">
+          Gallery photos to be replaced with real food photography upon conversion to production.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section-sm" style="background:var(--raised); border-top:1px solid var(--border);">
+    <div class="container" style="text-align:center;">
+      <h3 style="font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--warm); margin-bottom:0.75rem;">Like what you see?</h3>
+      <p style="font-size:0.9rem; color:var(--mid); margin-bottom:1.5rem;">Reserve your table and experience it in person.</p>
+      <a href={`${base}reservations/`} class="btn-primary">Reserve a Table →</a>
+    </div>
+  </section>
+
+</EmberLayout>
+
+<style>
+  .gallery-filter.active {
+    background: var(--amber) !important;
+    border-color: var(--amber) !important;
+    color: #fff !important;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1 !important; }
+  .gallery-item:hover .gallery-caption { transform: translateY(0) !important; }
+</style>
+
+<script>
+  // Gallery filtering
+  document.querySelectorAll('.gallery-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.gallery-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.getAttribute('data-filter');
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        const cat = item.getAttribute('data-cat');
+        (item as HTMLElement).style.display =
+          filter === 'all' || cat === filter ? '' : 'none';
+      });
+    });
+  });
+</script>

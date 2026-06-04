@@ -1,0 +1,178 @@
+---
+import EmberLayout from '../layouts/EmberLayout.astro';
+import { faqs } from '../data/restaurant.js';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<EmberLayout
+  title="FAQ — The Landmark Restaurant | Lucena City, Quezon"
+  description="Answers to your questions about dining, reservations, private events, dietary options, and getting to The Landmark in Lucena City, Quezon Province."
+  canonical="https://hirrok.github.io/landmark-restaurant-simulator/faq/"
+>
+
+  <!-- HEADER -->
+  <section style="background:#1A1008; padding:4rem max(1.5rem,5vw) 3rem;">
+    <div class="container">
+      <p style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--amber); margin-bottom:0.75rem; display:flex; align-items:center; gap:0.75rem;">
+        <span style="width:1.5rem; height:1px; background:var(--amber); display:inline-block;"></span>
+        Frequently Asked Questions
+      </p>
+      <h1 style="font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.5rem); color:#FAF6F0; max-width:600px;">
+        Before you visit — here's what people ask us.
+      </h1>
+    </div>
+  </section>
+
+
+  <!-- FAQ BODY -->
+  <section class="section" style="background:var(--surface);">
+    <div class="container">
+      <div style="display:grid; grid-template-columns:280px 1fr; gap:4rem; align-items:start;">
+
+        <!-- Category nav -->
+        <div style="position:sticky; top:calc(var(--nav-h) + 2rem);">
+          <p style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--amber); margin-bottom:1rem;">Categories</p>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:0.25rem;" id="faqNav">
+            {faqs.map((section, i) => (
+              <li>
+                <a
+                  href={`#section-${i}`}
+                  style="
+                    display:block; padding:0.625rem 0.875rem;
+                    font-size:0.875rem; color:var(--mid);
+                    border-left:2px solid transparent;
+                    transition:all 0.15s;
+                    border-radius:0 2px 2px 0;
+                  "
+                  onmouseover="this.style.color='var(--amber)'; this.style.borderLeftColor='var(--amber)'; this.style.background='var(--amber-bg)'"
+                  onmouseout="this.style.color='var(--mid)'; this.style.borderLeftColor='transparent'; this.style.background='transparent'"
+                >
+                  {section.category}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- FAQ Sections -->
+        <div style="display:flex; flex-direction:column; gap:3rem;">
+          {faqs.map((section, si) => (
+            <div id={`section-${si}`}>
+              <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem; padding-bottom:0.75rem; border-bottom:2px solid var(--border);">
+                <p style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; background:var(--amber-bg); color:var(--amber); border:1px solid rgba(194,122,43,0.25); padding:0.3rem 0.75rem; border-radius:2px;">
+                  {section.category}
+                </p>
+              </div>
+
+              <div class="accordion" style="display:flex; flex-direction:column; gap:0;">
+                {section.questions.map((item, qi) => (
+                  <div class="accordion-item" style="border-bottom:1px solid var(--border);">
+                    <button
+                      class="accordion-trigger"
+                      aria-expanded="false"
+                      style="
+                        width:100%; text-align:left;
+                        padding:1.125rem 0;
+                        background:none; border:none; cursor:pointer;
+                        display:flex; justify-content:space-between; align-items:flex-start; gap:1rem;
+                      "
+                    >
+                      <span style="font-family:'Playfair Display',serif; font-size:1rem; color:var(--warm); line-height:1.4; font-weight:600;">
+                        {item.q}
+                      </span>
+                      <span class="accordion-icon" style="
+                        flex-shrink:0;
+                        width:22px; height:22px;
+                        border:1px solid var(--border);
+                        border-radius:50%;
+                        display:flex; align-items:center; justify-content:center;
+                        font-family:'DM Mono',monospace;
+                        font-size:1rem;
+                        color:var(--amber);
+                        transition:transform 0.2s;
+                        line-height:1;
+                        margin-top:0.1rem;
+                      ">+</span>
+                    </button>
+                    <div class="accordion-content" style="display:none; padding:0 0 1.25rem 0;">
+                      <p style="font-size:0.95rem; color:var(--mid); line-height:1.75;">{item.a}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- BOTTOM CTA -->
+  <section class="section-sm" style="background:var(--raised); border-top:1px solid var(--border);">
+    <div class="container-narrow" style="text-align:center;">
+      <h3 style="font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--warm); margin-bottom:0.5rem;">Still have a question?</h3>
+      <p style="font-size:0.9rem; color:var(--mid); margin-bottom:1.5rem;">We're happy to help. Reserve your table and we'll sort it out when you arrive.</p>
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:1rem;">
+        <a href={`${base}reservations/`} class="btn-primary">Reserve a Table</a>
+        <a href={`${base}contact/`} class="btn-outline">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+</EmberLayout>
+
+<!-- Structured data for FAQ rich results -->
+<script type="application/ld+json">
+{JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.flatMap(section =>
+    section.questions.map(item => ({
+      "@type": "Question",
+      "name": item.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.a
+      }
+    }))
+  )
+})}
+</script>
+
+<style>
+  @media (max-width:768px) {
+    .container > div[style*="grid-template-columns:280px 1fr"] {
+      grid-template-columns:1fr !important;
+    }
+    .container > div > div:first-child[style*="position:sticky"] {
+      position:static !important;
+    }
+  }
+  .accordion-trigger:hover span:first-child { color: var(--amber) !important; }
+  .accordion-item.open .accordion-icon { transform: rotate(45deg); }
+</style>
+
+<script>
+  document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const item    = trigger.parentElement;
+      const content = item?.querySelector('.accordion-content') as HTMLElement;
+      const isOpen  = item?.classList.contains('open');
+
+      // Close all
+      document.querySelectorAll('.accordion-item').forEach(i => {
+        i.classList.remove('open');
+        const c = i.querySelector('.accordion-content') as HTMLElement;
+        if (c) c.style.display = 'none';
+      });
+
+      // Open this one if it was closed
+      if (!isOpen && item && content) {
+        item.classList.add('open');
+        content.style.display = 'block';
+      }
+    });
+  });
+</script>
