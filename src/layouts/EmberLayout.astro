@@ -1,1 +1,389 @@
+---
+// EmberLayout.astro — Landmark Restaurant Simulator
+// Self-contained. No shared dependencies across client sites.
+// Aurora Digital Foundry | arch-ember-restaurant-001
 
+interface Props {
+  title:       string;
+  description: string;
+  ogTitle?:    string;
+  ogDesc?:     string;
+  canonical?:  string;
+}
+
+const {
+  title,
+  description,
+  ogTitle,
+  ogDesc,
+  canonical,
+} = Astro.props;
+
+const base    = import.meta.env.BASE_URL;
+const siteUrl = "https://hirrok.github.io/landmark-restaurant-simulator";
+const ogImage = `${siteUrl}/images/og-cover.jpg`;
+
+const navLinks = [
+  { label: "Menu",         href: `${base}menu/` },
+  { label: "Reservations", href: `${base}reservations/` },
+  { label: "Gallery",      href: `${base}gallery/` },
+  { label: "About",        href: `${base}about/` },
+  { label: "Contact",      href: `${base}contact/` },
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  {canonical && <link rel="canonical" href={canonical} />}
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content={ogTitle || title} />
+  <meta property="og:description" content={ogDesc  || description} />
+  <meta property="og:image"       content={ogImage} />
+  <meta property="og:url"         content={canonical || siteUrl} />
+  <meta property="og:site_name"   content="The Landmark Restaurant" />
+
+  <!-- Fonts: Playfair Display + Lato + DM Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style is:global>
+    :root {
+      --ink:        #1A1008;
+      --warm:       #2C1810;
+      --mid:        #6B3A2A;
+      --dim:        #9B6B5A;
+      --muted:      #C4A090;
+      --cream:      #FAF6F0;
+      --surface:    #FFFFFF;
+      --raised:     #F5EDE4;
+      --border:     #E8D5C4;
+      --amber:      #C27A2B;
+      --amber-hov:  #A66523;
+      --amber-bg:   rgba(194,122,43,0.08);
+      --green:      #3A6B3A;
+      --green-bg:   rgba(58,107,58,0.08);
+      --nav-h:      64px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background:   var(--cream);
+      color:        var(--ink);
+      font-family:  'Lato', sans-serif;
+      font-size:    16px;
+      line-height:  1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      color:       var(--warm);
+      line-height: 1.2;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    ::selection { background: var(--amber); color: #fff; }
+    ::-webkit-scrollbar { width: 4px; background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+    /* ── NAV ── */
+    .nav {
+      position:   fixed;
+      top:        0;
+      left:       0;
+      right:      0;
+      z-index:    100;
+      height:     var(--nav-h);
+      background: rgba(26,16,8,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(194,122,43,0.2);
+      display:    flex;
+      align-items:center;
+      padding:    0 max(1.5rem, 5vw);
+    }
+    .nav-inner {
+      width:        100%;
+      max-width:    1100px;
+      margin:       0 auto;
+      display:      flex;
+      align-items:  center;
+      justify-content: space-between;
+      gap:          1rem;
+    }
+    .nav-logo {
+      font-family:  'Playfair Display', serif;
+      font-size:    1.2rem;
+      font-weight:  700;
+      color:        #FAF6F0;
+      letter-spacing: 0.02em;
+      white-space:  nowrap;
+    }
+    .nav-logo span { color: var(--amber); }
+    .nav-links {
+      display:     flex;
+      gap:         2rem;
+      list-style:  none;
+    }
+    .nav-links a {
+      font-family:  'DM Mono', monospace;
+      font-size:    0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color:        rgba(250,246,240,0.7);
+      transition:   color 0.2s;
+    }
+    .nav-links a:hover { color: var(--amber); }
+    .nav-cta {
+      display:       flex;
+      align-items:   center;
+      gap:           0.5rem;
+    }
+    .nav-reserve {
+      background:   var(--amber);
+      color:        #fff;
+      font-family:  'DM Mono', monospace;
+      font-size:    0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding:      0.5rem 1rem;
+      border-radius: 2px;
+      white-space:  nowrap;
+      transition:   background 0.2s;
+    }
+    .nav-reserve:hover { background: var(--amber-hov); }
+
+    /* Mobile nav toggle */
+    .nav-toggle {
+      display:    none;
+      background: none;
+      border:     none;
+      cursor:     pointer;
+      padding:    0.5rem;
+      color:      #FAF6F0;
+    }
+    .nav-toggle svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+    /* ── MAIN CONTENT OFFSET ── */
+    main { padding-top: var(--nav-h); }
+
+    /* ── SECTION UTILITIES ── */
+    .section { padding: 5rem max(1.5rem, 5vw); }
+    .section-sm { padding: 3rem max(1.5rem, 5vw); }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .container-narrow { max-width: 720px; margin: 0 auto; }
+    .section-label {
+      font-family:    'DM Mono', monospace;
+      font-size:      0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color:          var(--amber);
+      margin-bottom:  0.75rem;
+    }
+    .section-title {
+      font-family:  'Playfair Display', serif;
+      font-size:    clamp(1.75rem, 4vw, 3rem);
+      color:        var(--warm);
+      margin-bottom:0.75rem;
+    }
+    .section-lead {
+      font-size:    1.05rem;
+      color:        var(--mid);
+      max-width:    560px;
+      line-height:  1.7;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display:       inline-flex;
+      align-items:   center;
+      gap:           0.5rem;
+      background:    var(--amber);
+      color:         #fff;
+      font-family:   'DM Mono', monospace;
+      font-size:     0.75rem;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      padding:       0.875rem 1.75rem;
+      border-radius: 2px;
+      border:        none;
+      cursor:        pointer;
+      transition:    background 0.2s, transform 0.1s;
+      white-space:   nowrap;
+    }
+    .btn-primary:hover { background: var(--amber-hov); }
+    .btn-primary:active { transform: scale(0.98); }
+
+    .btn-outline {
+      display:       inline-flex;
+      align-items:   center;
+      gap:           0.5rem;
+      background:    transparent;
+      color:         var(--amber);
+      font-family:   'DM Mono', monospace;
+      font-size:     0.75rem;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      padding:       0.875rem 1.75rem;
+      border-radius: 2px;
+      border:        2px solid var(--amber);
+      cursor:        pointer;
+      transition:    all 0.2s;
+      white-space:   nowrap;
+    }
+    .btn-outline:hover { background: var(--amber); color: #fff; }
+
+    .btn-ghost {
+      display:       inline-flex;
+      align-items:   center;
+      gap:           0.5rem;
+      background:    transparent;
+      color:         var(--mid);
+      font-family:   'DM Mono', monospace;
+      font-size:     0.7rem;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      padding:       0.75rem 1.25rem;
+      border-radius: 2px;
+      border:        1px solid var(--border);
+      cursor:        pointer;
+      transition:    all 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--amber); color: var(--amber); }
+
+    /* ── DISCLAIMER FOOTER ── */
+    .disclaimer {
+      background:   #1A1008;
+      color:        rgba(250,246,240,0.5);
+      font-family:  'DM Mono', monospace;
+      font-size:    0.65rem;
+      letter-spacing:0.1em;
+      text-align:   center;
+      padding:      0.75rem 1.5rem;
+    }
+    .disclaimer strong { color: var(--amber); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+      .nav-links.open {
+        display:    flex;
+        flex-direction: column;
+        position:   fixed;
+        top:        var(--nav-h);
+        left:       0; right: 0;
+        background: rgba(26,16,8,0.98);
+        padding:    2rem 1.5rem;
+        gap:        1.5rem;
+        border-bottom: 1px solid rgba(194,122,43,0.2);
+      }
+      .nav-links.open a { font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href={base} class="nav-logo">The <span>Landmark</span></a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        {navLinks.map(l => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+
+      <a href={`${base}reservations/`} class="nav-reserve">Reserve a Table</a>
+    </div>
+  </nav>
+
+  <!-- ── CONTENT ── -->
+  <main>
+    <slot />
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer style="background:#1A1008; color:#FAF6F0; padding: 3rem max(1.5rem,5vw) 0;">
+    <div class="container" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:2.5rem; padding-bottom:2.5rem; border-bottom:1px solid rgba(255,255,255,0.1);">
+      <div>
+        <p style="font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; margin-bottom:0.5rem;">
+          The <span style="color:var(--amber)">Landmark</span>
+        </p>
+        <p style="font-size:0.85rem; color:rgba(250,246,240,0.6); line-height:1.6;">
+          Heritage dining in the heart of Lucena City. Filipino cuisine, private celebrations, and the art of gathering.
+        </p>
+      </div>
+      <div>
+        <p style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--amber); margin-bottom:0.75rem;">Hours</p>
+        <p style="font-size:0.85rem; color:rgba(250,246,240,0.7); line-height:1.8;">
+          Tuesday–Friday<br/>11:00 AM – 10:00 PM<br/><br/>
+          Saturday–Sunday<br/>10:00 AM – 11:00 PM<br/><br/>
+          <span style="color:rgba(250,246,240,0.4);">Monday: Closed</span>
+        </p>
+      </div>
+      <div>
+        <p style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--amber); margin-bottom:0.75rem;">Find Us</p>
+        <p style="font-size:0.85rem; color:rgba(250,246,240,0.7); line-height:1.8;">
+          Downtown Lucena City<br/>Quezon Province<br/>Philippines
+        </p>
+        <div style="display:flex; gap:0.75rem; margin-top:1rem;">
+          <a href="#" style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; color:rgba(250,246,240,0.5); text-transform:uppercase; border:1px solid rgba(255,255,255,0.15); padding:0.35rem 0.75rem; border-radius:2px; transition:color 0.2s;">Facebook</a>
+          <a href="#" style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; color:rgba(250,246,240,0.5); text-transform:uppercase; border:1px solid rgba(255,255,255,0.15); padding:0.35rem 0.75rem; border-radius:2px; transition:color 0.2s;">Messenger</a>
+        </div>
+      </div>
+      <div>
+        <p style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--amber); margin-bottom:0.75rem;">Quick Links</p>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:0.5rem;">
+          {navLinks.map(l => (
+            <li>
+              <a href={l.href} style="font-size:0.85rem; color:rgba(250,246,240,0.6); transition:color 0.2s;"
+                 onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='rgba(250,246,240,0.6)'">
+                {l.label}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href={`${base}faq/`} style="font-size:0.85rem; color:rgba(250,246,240,0.6);">FAQ</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="padding:1.5rem 0; display:flex; flex-direction:column; gap:0.5rem; align-items:center; text-align:center;">
+      <p style="font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.1em; color:rgba(250,246,240,0.3); text-transform:uppercase;">
+        Built by <span style="color:var(--amber)">Aurora Digital Foundry</span>
+        &nbsp;·&nbsp; Ember Simulator #001
+        &nbsp;·&nbsp; arch-ember-restaurant-001
+      </p>
+    </div>
+  </footer>
+
+  <!-- ── DISCLAIMER STRIP ── -->
+  <div class="disclaimer">
+    <strong>Demonstration Environment</strong> — Representative business archetype. Not a real client. No real customer data.
+  </div>
+
+  <!-- ── MOBILE NAV SCRIPT ── -->
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle?.addEventListener('click', () => links?.classList.toggle('open'));
+    links?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links?.classList.remove('open')));
+  </script>
+
+</body>
+</html>
